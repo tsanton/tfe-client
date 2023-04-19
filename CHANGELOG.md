@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Tsanton/tfe-client/compare/0.2.0...v0.2.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* include v in tag ([cbfdbbf](https://github.com/Tsanton/tfe-client/commit/cbfdbbf3cd9d05af293e74eab702aebe6d406872))
+
 ## [0.2.0](https://github.com/Tsanton/tfe-client/compare/0.1.1...0.2.0) (2023-04-19)
 
 
