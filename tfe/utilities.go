@@ -63,3 +63,34 @@ func MakeRequest[T any, U any](ctx context.Context, s *TerraformEnterpriseClient
 
 	return &definitionResp, nil
 }
+
+func Do[T any](ctx context.Context, s *TerraformEnterpriseClient, expectedResponseCode int, req *http.Request) (*T, error) {
+	if s.token != "" {
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", s.token))
+	}
+	req.Header.Set("Content-Type", "application/vnd.api+json")
+	req.Header.Set("Accept", "application/json")
+
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != expectedResponseCode {
+		// responseData, _ := io.ReadAll(resp.Body)
+		// fmt.Print(string(responseData))
+		return nil, fmt.Errorf("request returned non 200 response: %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	var definitionResp T
+	if resp.ContentLength == 0 {
+		return nil, nil
+	}
+
+	err = json.NewDecoder(resp.Body).Decode(&definitionResp)
+	if err != nil {
+		return nil, fmt.Errorf("unable to decode response: %w", err)
+	}
+
+	return &definitionResp, nil
+}
