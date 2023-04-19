@@ -7,36 +7,43 @@ import (
 )
 
 type Provider struct {
-	Data struct {
-		Id         string `json:"id"`
-		Type       string `json:"type"`
-		Attributes struct {
-			Name         string          `json:"name"`
-			Namespace    string          `json:"namespace"`
-			RegistryName me.RegistryType `json:"registry-name"`
-			Created      time.Time       `json:"created-at"`
-			Updated      time.Time       `json:"updated-at"`
-			Permissions  struct {
-				Name string `json:"type"`
-			} `json:"permissions"`
-		} `json:"attributes"`
-	} `json:"data"`
+	Data ProviderData `json:"data"`
+}
 
-	Relationships struct {
-		Organization struct {
-			Data struct {
-				Id   string `json:"id"`
-				Type string `json:"type"`
-			} `json:"data"`
-		} `json:"organization"`
-		Versions struct {
-			Links struct {
-				Related string `json:"related"`
-			} `json:"links"`
-		} `json:"versions"`
-	} `json:"relationships"`
+type ProviderData struct {
+	Id            string                `json:"id"`
+	Type          string                `json:"type"`
+	Attributes    ProviderAttributes    `json:"attributes"`
+	Relationships ProviderRelationships `json:"relationships"`
+	Links         ProviderLinks         `json:"links"`
+}
 
-	Links struct {
-		Self string `json:"self"`
-	} `json:"links"`
+type ProviderAttributes struct {
+	Name         string              `json:"name"`
+	Namespace    string              `json:"namespace"`
+	RegistryName me.RegistryType     `json:"registry-name"`
+	CreatedAt    time.Time           `json:"created-at"`
+	UpdatedAt    time.Time           `json:"updated-at"`
+	Permissions  ProviderPermissions `json:"permissions"`
+}
+
+type ProviderPermissions struct {
+	CanDelete bool `json:"can-delete"`
+}
+
+type ProviderRelationships struct {
+	Organization ProviderOrganizationRelationshipData `json:"organization"`
+}
+
+type ProviderOrganizationRelationshipData struct {
+	Data ProviderOrganizationRelationshipDetails `json:"data"`
+}
+
+type ProviderOrganizationRelationshipDetails struct {
+	Id   string `json:"id"`
+	Type string `json:"type"`
+}
+
+type ProviderLinks struct {
+	Self string `json:"self"`
 }

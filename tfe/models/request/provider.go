@@ -4,21 +4,18 @@ import (
 	me "github.com/tsanton/tfe-client/tfe/models/enum"
 )
 
-type ProviderData struct {
-	Type       string             `json:"type"`
-	Attributes ProviderAttributes `json:"attributes"`
+type Provider struct {
+	Data ProviderData `json:"data"`
 }
 
-type ProviderAttributes struct {
+type ProviderData struct {
+	//Type must be 'registry-providers'
+	Type       string                 `json:"type"`
+	Attributes ProviderDataAttributes `json:"attributes"`
+}
+
+type ProviderDataAttributes struct {
 	Name         string          `json:"name"`
 	Namespace    string          `json:"namespace"`
 	RegistryName me.RegistryType `json:"registry-name"`
-}
-
-/*##################
-### Request body ###
-##################*/
-
-type Provider struct {
-	Data ProviderData `json:"data"`
 }

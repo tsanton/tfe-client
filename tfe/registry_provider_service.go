@@ -31,22 +31,22 @@ func (s *RegistryProviderService) Create(ctx context.Context, organization strin
 	return *resp, nil
 }
 
-func (s *RegistryProviderService) Read(ctx context.Context, organization string, prov *mreq.Provider) (mresp.Provider, error) {
-	path := fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", organization, prov.Data.Attributes.RegistryName, prov.Data.Attributes.Namespace, prov.Data.Attributes.Name)
-	resp, err := MakeRequest[*mreq.Provider, mresp.Provider](ctx, s.cli, http.MethodGet, 200, path, prov)
+func (s *RegistryProviderService) Read(ctx context.Context, organization, registryName, namespace, providerName string) (mresp.Provider, error) {
+	path := fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", organization, registryName, namespace, providerName)
+	resp, err := MakeRequest[interface{}, mresp.Provider](ctx, s.cli, http.MethodGet, 200, path, nil)
 	if err != nil {
 		return mresp.Provider{}, err
 	}
 	return *resp, nil
 }
 
-func (s *RegistryProviderService) Update(ctx context.Context, organization string, prov *mreq.Provider) (mresp.Provider, error) {
+func (s *RegistryProviderService) Update(ctx context.Context) error {
 	panic("not implemented")
 }
 
-func (s *RegistryProviderService) Delete(ctx context.Context, organization string, prov *mreq.Provider) error {
-	path := fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", organization, prov.Data.Attributes.RegistryName, prov.Data.Attributes.Namespace, prov.Data.Attributes.Name)
-	_, err := MakeRequest[*mreq.Provider, interface{}](ctx, s.cli, http.MethodDelete, 204, path, nil)
+func (s *RegistryProviderService) Delete(ctx context.Context, organization, registryName, namespace, providerName string) error {
+	path := fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", organization, registryName, namespace, providerName)
+	_, err := MakeRequest[interface{}, interface{}](ctx, s.cli, http.MethodDelete, 204, path, nil)
 	if err != nil {
 		return err
 	}
