@@ -70,14 +70,6 @@ func Test_live_gpg_key_lifecycle(t *testing.T) {
 	assert.Nil(t, err)
 	t.Logf("Number keys after delete: %d", len(finalKeys.Data))
 	assert.Equal(t, len(origKeys.Data), len(finalKeys.Data))
-
-	/* Cleanup all keys */
-	// for _, key := range finalKeys.Data {
-	// 	err = cli.GpgService.Delete(ctx, key.Attributes.Namespace, key.Attributes.KeyId)
-	// 	if err != nil {
-	// 		panic("whops")
-	// 	}
-	// }
 }
 
 func Test_gpg_key(t *testing.T) {
@@ -122,3 +114,17 @@ func generateGpgKey(entity *openpgp.Entity) (string, error) {
 
 	return publicKeyArmorBuf.String(), nil
 }
+
+// func Test_live_gpg_key_cleanup(t *testing.T) {
+// 	orgName, token := runnerValidator(t)
+// 	cli := clientSetup(t, token)
+// 	ctx := context.Background()
+// 	keys, err := cli.GpgService.List(ctx, []string{orgName})
+// 	assert.Nil(t, err)
+// 	for _, key := range keys.Data {
+// 		err = cli.GpgService.Delete(ctx, key.Attributes.Namespace, key.Attributes.KeyId)
+// 		if err != nil {
+// 			panic("whops")
+// 		}
+// 	}
+// }
