@@ -17,8 +17,10 @@ type TerraformEnterpriseClient struct {
 	token  string
 
 	/*Services*/
-	ProviderService *RegistryProviderService
-	GpgService      *GpgService
+	GpgService                     *GpgService
+	ProviderService                *RegistryProviderService
+	ProviderVersionService         *RegistryProviderVersionService
+	ProviderVersionPlatformService *RegistryProviderVersionPlatformService
 }
 
 func NewClient(logger u.ILogger, cfg *m.ClientConfig) (*TerraformEnterpriseClient, error) {
@@ -35,8 +37,10 @@ func NewClient(logger u.ILogger, cfg *m.ClientConfig) (*TerraformEnterpriseClien
 	}
 
 	/*Register services*/
-	cli.ProviderService = newRegistryProviderService(&cli, logger)
 	cli.GpgService = newGpgService(&cli, logger)
+	cli.ProviderService = newRegistryProviderService(&cli, logger)
+	cli.ProviderVersionService = newRegistryProviderVersionService(&cli, logger)
+	cli.ProviderVersionPlatformService = newRegistryProviderVersionPlatformService(&cli, logger)
 
 	return &cli, nil
 }

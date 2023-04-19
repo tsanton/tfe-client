@@ -33,8 +33,8 @@ func (s *GpgService) Create(ctx context.Context, req *mreq.Gpg) (mresp.GpgKey, e
 	return *resp, nil
 }
 
-func (s *GpgService) Read(ctx context.Context, req *mreq.GpgQuery) (mresp.GpgKey, error) {
-	path := fmt.Sprintf("/api/registry/%s/v2/gpg-keys/%s/%s", string(me.RegistryTypePrivate), req.Namespace, req.KeyId) //Must be private
+func (s *GpgService) Read(ctx context.Context, namespace, keyId string) (mresp.GpgKey, error) {
+	path := fmt.Sprintf("/api/registry/%s/v2/gpg-keys/%s/%s", string(me.RegistryTypePrivate), namespace, keyId) //Must be private
 	resp, err := MakeRequest[interface{}, mresp.GpgKey](ctx, s.cli, http.MethodGet, 200, path, nil)
 	if err != nil {
 		return mresp.GpgKey{}, err
@@ -43,32 +43,12 @@ func (s *GpgService) Read(ctx context.Context, req *mreq.GpgQuery) (mresp.GpgKey
 }
 
 // Cannot see any usecases where change shiould not trigger replace
-func (s *GpgService) Update(ctx context.Context, req *mreq.GpgQuery) (mresp.GpgKey, error) {
+func (s *GpgService) Update(ctx context.Context) error {
 	panic("not implemented")
-	// path := fmt.Sprintf("/api/registry/%s/v2/gpg-keys/%s/%s", string(me.RegistryTypePrivate), req.Namespace, req.KeyId) //Must be private
-	// body := struct {
-	// 	Type me.RegistryType `json:"type"`
-	// 	Data struct {
-	// 		Namespace string `json:"namespace"`
-	// 	} `json:"data"`
-	// }{
-	// 	Type: me.RegistryTypePrivate,
-	// 	Data: struct {
-	// 		Namespace string `json:"namespace"`
-	// 	}{
-	// 		Namespace: req.Namespace,
-	// 	},
-	// }
-
-	// resp, err := MakeRequest[interface{}, mresp.GpgKey](ctx, s.cli, http.MethodPatch, 201, path, body)
-	// if err != nil {
-	// 	return mresp.GpgKey{}, err
-	// }
-	// return *resp, nil
 }
 
-func (s *GpgService) Delete(ctx context.Context, req *mreq.GpgQuery) error {
-	path := fmt.Sprintf("/api/registry/%s/v2/gpg-keys/%s/%s", string(me.RegistryTypePrivate), req.Namespace, req.KeyId) //Must be private
+func (s *GpgService) Delete(ctx context.Context, namespace, keyId string) error {
+	path := fmt.Sprintf("/api/registry/%s/v2/gpg-keys/%s/%s", string(me.RegistryTypePrivate), namespace, keyId) //Must be private
 	_, err := MakeRequest[interface{}, interface{}](ctx, s.cli, http.MethodDelete, 204, path, nil)
 	if err != nil {
 		return err
