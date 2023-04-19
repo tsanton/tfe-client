@@ -5,86 +5,48 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	api "github.com/tsanton/tfe-client/tfe"
-	apim "github.com/tsanton/tfe-client/tfe/models"
 	me "github.com/tsanton/tfe-client/tfe/models/enum"
 	mreq "github.com/tsanton/tfe-client/tfe/models/request"
-	u "github.com/tsanton/tfe-client/tfe/utilities"
 )
 
 func Test_live_provider_service_lifecycle(t *testing.T) {
-	tfeOrgName := u.GetEnv("TFE_ORG_NAME", "")
-	tfeToken := u.GetEnv("TFE_TOKEN", "")
-	run := u.GetEnv("TFE_RUN_LIVE_TESTS", false)
-	if !run && tfeOrgName != "" && tfeToken != "" {
-		t.Skip("Skipping test 'Test_live_provider_service_lifecycle'")
-	}
-	cli, err := api.NewClient(logger, &apim.ClientConfig{
-		Address: "https://app.terraform.io",
-		Token:   tfeToken,
-	})
-	if err != nil {
-		t.Errorf("Error creating client: %s", err)
-		t.FailNow()
-	}
-
+	orgName, token := runnerValidator(t)
+	cli := clientSetup(t, token)
 	ctx := context.Background()
-
-	/* List provicer services */
 
 	/* Create provider service */
 	request := mreq.Provider{
 		Data: mreq.ProviderData{
 			Type: "registry-providers",
-			Attributes: mreq.ProviderAttributes{
-				Name:         "test-provider",
-				Namespace:    tfeOrgName,
+			Attributes: mreq.ProviderDataAttributes{
+				Name:         "provider-integration-test",
+				Namespace:    orgName,
 				RegistryName: me.RegistryTypePrivate,
 			},
 		},
 	}
-	cResp, err := cli.ProviderService.Create(ctx, tfeOrgName, &request)
+	cResp, err := cli.ProviderService.Create(ctx, orgName, &request)
 	assert.Nil(t, err)
 	assert.NotNil(t, cResp)
 
 	/* Read provider service */
-	rResp, err := cli.ProviderService.Read(ctx, tfeOrgName, &request)
+	rResp, err := cli.ProviderService.Read(ctx, orgName, string(cResp.Data.Attributes.RegistryName), cResp.Data.Attributes.Namespace, cResp.Data.Attributes.Name)
 	assert.Nil(t, err)
 	assert.NotNil(t, rResp)
 
 	/* Delete provider service */
-	err = cli.ProviderService.Delete(ctx, tfeOrgName, &request)
+	err = cli.ProviderService.Delete(ctx, orgName, string(cResp.Data.Attributes.RegistryName), cResp.Data.Attributes.Namespace, cResp.Data.Attributes.Name)
 	assert.Nil(t, err)
 
 	/* Read provider service */
-	_, err = cli.ProviderService.Read(ctx, tfeOrgName, &request)
+	_, err = cli.ProviderService.Read(ctx, orgName, string(cResp.Data.Attributes.RegistryName), cResp.Data.Attributes.Namespace, cResp.Data.Attributes.Name)
 	assert.NotNil(t, err)
 }
 
 // func Test_live_provider_service_cleanup(t *testing.T) {
-// 	tfeOrgName := u.GetEnv("TFE_ORG_NAME", "")
-// 	tfeToken := u.GetEnv("TFE_TOKEN", "")
-
-// 	cli, err := api.NewClient(logger, &apim.ClientConfig{
-// 		Address: "https://app.terraform.io",
-// 		Token:   tfeToken,
-// 	})
-// 	if err != nil {
-// 		t.Errorf("Error creating client: %s", err)
-// 		t.FailNow()
-// 	}
-
+// 	orgName, token := runnerValidator(t)
+// 	cli := clientSetup(t, token)
 // 	ctx := context.Background()
-// 	request := mreq.Provider{
-// 		Data: mreq.ProviderData{
-// 			Type: "registry-providers",
-// 			Attributes: mreq.ProviderAttributes{
-// 				Name:         "demo-provider",
-// 				Namespace:    tfeOrgName,
-// 				RegistryName: me.RegistryTypePrivate,
-// 			},
-// 		},
-// 	}
-// 	err = cli.ProviderService.Delete(ctx, tfeOrgName, &request)
+// 	err := cli.ProviderService.Delete(ctx, orgName, string(me.RegistryTypePrivate), orgName, "provider-version-platform-integration-test")
 // 	assert.Nil(t, err)
 // }

@@ -21,7 +21,7 @@ func Test_service_create(t *testing.T) {
 	request := mreq.Provider{
 		Data: mreq.ProviderData{
 			Type: "registry-providers",
-			Attributes: mreq.ProviderAttributes{
+			Attributes: mreq.ProviderDataAttributes{
 				Name:         "test-provider",
 				Namespace:    "gruntwork",
 				RegistryName: me.RegistryTypePrivate,
@@ -78,11 +78,11 @@ func Test_service_create(t *testing.T) {
 
 func Test_service_read(t *testing.T) {
 	/* Arrange */
-	tfeOrganizationName := "gruntwork"
+	orgName := "gruntwork"
 	request := mreq.Provider{
 		Data: mreq.ProviderData{
 			Type: "registry-providers",
-			Attributes: mreq.ProviderAttributes{
+			Attributes: mreq.ProviderDataAttributes{
 				Name:         "test-provider",
 				Namespace:    "gruntwork",
 				RegistryName: me.RegistryTypePrivate,
@@ -91,34 +91,18 @@ func Test_service_read(t *testing.T) {
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", tfeOrganizationName, request.Data.Attributes.RegistryName, request.Data.Attributes.Namespace, request.Data.Attributes.Name) {
+		if r.URL.Path != fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", orgName, request.Data.Attributes.RegistryName, request.Data.Attributes.Namespace, request.Data.Attributes.Name) {
 			t.Errorf("Request path differend from expected, got: %s", r.URL.Path)
 		}
 		if r.Method != http.MethodGet {
 			t.Errorf("Request method differend from expected, got: %s", r.Method)
 		}
-		raw, err := io.ReadAll(r.Body)
-		if err != nil {
-			panic(err)
-		}
-		var content mreq.Provider
-		err = json.Unmarshal(raw, &content)
-		if err != nil {
-			panic(err)
-		}
-
-		/* Assert */
-		assert.Equal(t, request.Data.Type, content.Data.Type)
-		assert.Equal(t, request.Data.Attributes.Name, content.Data.Attributes.Name)
-		assert.Equal(t, request.Data.Attributes.Namespace, content.Data.Attributes.Namespace)
-		assert.Equal(t, request.Data.Attributes.Namespace, content.Data.Attributes.Namespace)
-
 		w.WriteHeader(http.StatusOK)
 		resp := createProviderResponse(
 			request.Data.Attributes.Name,
 			request.Data.Attributes.Namespace,
 			string(request.Data.Attributes.RegistryName),
-			tfeOrganizationName,
+			orgName,
 			time.Now(),
 		)
 		_, _ = w.Write([]byte(resp))
@@ -128,7 +112,7 @@ func Test_service_read(t *testing.T) {
 	/* Act */
 	cli, _ := getTestClient(t, logger, server.URL)
 
-	resp, err := cli.ProviderService.Read(context.Background(), tfeOrganizationName, &request)
+	resp, err := cli.ProviderService.Read(context.Background(), orgName, string(request.Data.Attributes.RegistryName), request.Data.Attributes.Namespace, request.Data.Attributes.Name)
 
 	/* Assert */
 	assert.Nil(t, err)
@@ -139,11 +123,11 @@ func Test_service_read(t *testing.T) {
 
 func Test_service_delete(t *testing.T) {
 	/* Arrange */
-	tfeOrganizationName := "gruntwork"
+	orgName := "gruntwork"
 	request := mreq.Provider{
 		Data: mreq.ProviderData{
 			Type: "registry-providers",
-			Attributes: mreq.ProviderAttributes{
+			Attributes: mreq.ProviderDataAttributes{
 				Name:         "test-provider",
 				Namespace:    "gruntwork",
 				RegistryName: me.RegistryTypePrivate,
@@ -152,7 +136,7 @@ func Test_service_delete(t *testing.T) {
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", tfeOrganizationName, request.Data.Attributes.RegistryName, request.Data.Attributes.Namespace, request.Data.Attributes.Name) {
+		if r.URL.Path != fmt.Sprintf("/api/v2/organizations/%s/registry-providers/%s/%s/%s", orgName, request.Data.Attributes.RegistryName, request.Data.Attributes.Namespace, request.Data.Attributes.Name) {
 			t.Errorf("Request path differend from expected, got: %s", r.URL.Path)
 		}
 		if r.Method != http.MethodDelete {
@@ -165,7 +149,7 @@ func Test_service_delete(t *testing.T) {
 	/* Act */
 	cli, _ := getTestClient(t, logger, server.URL)
 
-	err := cli.ProviderService.Delete(context.Background(), tfeOrganizationName, &request)
+	err := cli.ProviderService.Delete(context.Background(), orgName, string(request.Data.Attributes.RegistryName), request.Data.Attributes.Namespace, request.Data.Attributes.Name)
 
 	/* Assert */
 	assert.Nil(t, err)
