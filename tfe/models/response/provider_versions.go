@@ -1,7 +1,7 @@
 package response
 
 type ProviderVersions struct {
-	Data  []ProviderVersionData `json:"data"`
-	Links ListLinks
-	Meta  ListMeta
+	Data  []providerVersionData `json:"data"`
+	Links listLinks
+	Meta  listMeta
 }

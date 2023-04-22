@@ -7,43 +7,43 @@ import (
 )
 
 type Provider struct {
-	Data ProviderData `json:"data"`
+	Data providerData `json:"data"`
 }
 
-type ProviderData struct {
+type providerData struct {
 	Id            string                `json:"id"`
 	Type          string                `json:"type"`
-	Attributes    ProviderAttributes    `json:"attributes"`
-	Relationships ProviderRelationships `json:"relationships"`
-	Links         ProviderLinks         `json:"links"`
+	Attributes    providerAttributes    `json:"attributes"`
+	Relationships providerRelationships `json:"relationships"`
+	Links         providerLinks         `json:"links"`
 }
 
-type ProviderAttributes struct {
+type providerAttributes struct {
 	Name         string              `json:"name"`
 	Namespace    string              `json:"namespace"`
 	RegistryName me.RegistryType     `json:"registry-name"`
 	CreatedAt    time.Time           `json:"created-at"`
 	UpdatedAt    time.Time           `json:"updated-at"`
-	Permissions  ProviderPermissions `json:"permissions"`
+	Permissions  providerPermissions `json:"permissions"`
 }
 
-type ProviderPermissions struct {
+type providerPermissions struct {
 	CanDelete bool `json:"can-delete"`
 }
 
-type ProviderRelationships struct {
-	Organization ProviderOrganizationRelationshipData `json:"organization"`
+type providerRelationships struct {
+	Organization providerOrganizationRelationshipData `json:"organization"`
 }
 
-type ProviderOrganizationRelationshipData struct {
-	Data ProviderOrganizationRelationshipDetails `json:"data"`
+type providerOrganizationRelationshipData struct {
+	Data providerOrganizationRelationshipDetails `json:"data"`
 }
 
-type ProviderOrganizationRelationshipDetails struct {
+type providerOrganizationRelationshipDetails struct {
 	Id   string `json:"id"`
 	Type string `json:"type"`
 }
 
-type ProviderLinks struct {
+type providerLinks struct {
 	Self string `json:"self"`
 }

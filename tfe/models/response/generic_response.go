@@ -1,6 +1,6 @@
 package response
 
-type ListLinks struct {
+type listLinks struct {
 	Self  string `json:"self"`
 	First string `json:"first"`
 	Prev  string `json:"prev"`
@@ -8,11 +8,11 @@ type ListLinks struct {
 	Last  string `json:"last"`
 }
 
-type ListMeta struct {
-	Pagination ListMetaPagination
+type listMeta struct {
+	Pagination listMetaPagination
 }
 
-type ListMetaPagination struct {
+type listMetaPagination struct {
 	CurrentPage int  `json:"current-page"`
 	PageSize    int  `json:"page-size"`
 	PrevPage    *int `json:"prev-page"`
