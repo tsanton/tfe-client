@@ -32,10 +32,10 @@ func Test_live_provider_service_version_platform_lifecycle(t *testing.T) {
 		Data: mreq.ProviderVersionPlatformData{
 			Type: "registry-provider-version-platforms",
 			Attributes: mreq.ProviderVersionPlatformDataAttributes{
-				Os:      "linux",
-				Arch:    "amd64",
-				Shasum:  "8f69533bc8afc227b40d15116358f91505bb638ce5919712fbb38a2dec1bba38",
-				Filname: "terraform-provider-provider-version-platform-integration-test_0.1.0_linux_amd64.zip",
+				Os:       "linux",
+				Arch:     "amd64",
+				Shasum:   "8f69533bc8afc227b40d15116358f91505bb638ce5919712fbb38a2dec1bba38",
+				Filename: "terraform-provider-provider-version-platform-integration-test_0.1.0_linux_amd64.zip",
 			},
 		},
 	}

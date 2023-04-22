@@ -68,8 +68,6 @@ func Do[T any](ctx context.Context, s *TerraformEnterpriseClient, expectedRespon
 	if s.token != "" {
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", s.token))
 	}
-	req.Header.Set("Content-Type", "application/vnd.api+json")
-	req.Header.Set("Accept", "application/json")
 
 	resp, err := s.client.Do(req)
 	if err != nil {

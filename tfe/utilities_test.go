@@ -1,7 +1,9 @@
 package tfe_test
 
 import (
+	"bytes"
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,6 +14,7 @@ import (
 	mresp "github.com/tsanton/tfe-client/tfe/models/response"
 	u "github.com/tsanton/tfe-client/tfe/utilities"
 	"golang.org/x/crypto/openpgp"
+	"golang.org/x/crypto/openpgp/armor"
 	"golang.org/x/crypto/openpgp/packet"
 )
 
@@ -110,4 +113,29 @@ func bootstrapProviderVersion(t *testing.T, cli *api.TerraformEnterpriseClient, 
 		panic("unable to boostrap provider version")
 	}
 	return &cResp
+}
+
+func generateGpgKey(entity *openpgp.Entity) (string, error) {
+	var publicKeyBuf bytes.Buffer
+	err := entity.Serialize(&publicKeyBuf)
+	if err != nil {
+		fmt.Println("Error serializing public key:", err)
+		return "", err
+	}
+
+	// Convert the public key to an armored string
+	publicKeyArmorBuf := bytes.Buffer{}
+	w, err := armor.Encode(&publicKeyArmorBuf, "PGP PUBLIC KEY BLOCK", nil)
+	if err != nil {
+		fmt.Println("Error encoding public key:", err)
+		return "", err
+	}
+	_, err = w.Write(publicKeyBuf.Bytes())
+	if err != nil {
+		fmt.Println("Error writing public key to armored buffer:", err)
+		return "", err
+	}
+	w.Close()
+
+	return publicKeyArmorBuf.String(), nil
 }

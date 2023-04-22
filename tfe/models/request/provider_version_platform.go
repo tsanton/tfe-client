@@ -11,8 +11,8 @@ type ProviderVersionPlatformData struct {
 }
 
 type ProviderVersionPlatformDataAttributes struct {
-	Os      string `json:"os"`
-	Arch    string `json:"arch"`
-	Shasum  string `json:"shasum"`
-	Filname string `json:"filename"`
+	Os       string `json:"os"`
+	Arch     string `json:"arch"`
+	Shasum   string `json:"shasum"`
+	Filename string `json:"filename"`
 }

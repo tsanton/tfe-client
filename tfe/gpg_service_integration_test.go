@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"golang.org/x/crypto/openpgp"
-	"golang.org/x/crypto/openpgp/armor"
 	"golang.org/x/crypto/openpgp/packet"
 
 	"github.com/stretchr/testify/assert"
@@ -88,31 +87,6 @@ func Test_gpg_key(t *testing.T) {
 	publicKeyReader := bytes.NewBufferString(publicKeyString)
 	_, err = openpgp.ReadArmoredKeyRing(publicKeyReader)
 	assert.Nil(t, err)
-}
-
-func generateGpgKey(entity *openpgp.Entity) (string, error) {
-	var publicKeyBuf bytes.Buffer
-	err := entity.Serialize(&publicKeyBuf)
-	if err != nil {
-		fmt.Println("Error serializing public key:", err)
-		return "", err
-	}
-
-	// Convert the public key to an armored string
-	publicKeyArmorBuf := bytes.Buffer{}
-	w, err := armor.Encode(&publicKeyArmorBuf, "PGP PUBLIC KEY BLOCK", nil)
-	if err != nil {
-		fmt.Println("Error encoding public key:", err)
-		return "", err
-	}
-	_, err = w.Write(publicKeyBuf.Bytes())
-	if err != nil {
-		fmt.Println("Error writing public key to armored buffer:", err)
-		return "", err
-	}
-	w.Close()
-
-	return publicKeyArmorBuf.String(), nil
 }
 
 // func Test_live_gpg_key_cleanup(t *testing.T) {
