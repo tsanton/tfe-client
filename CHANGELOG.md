@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Tsanton/tfe-client/compare/v0.3.0...v0.3.1) (2023-04-22)
+
+
+### Bug Fixes
+
+* revert to all public structs ([2037dcf](https://github.com/Tsanton/tfe-client/commit/2037dcfcbf1f3ae595b32e7115cfca8fcca21e39))
+
 ## [0.3.0](https://github.com/Tsanton/tfe-client/compare/v0.2.1...v0.3.0) (2023-04-22)
 
 
