@@ -1,44 +1,44 @@
 package response
 
 type ProviderVersionPlatform struct {
-	Data providerVersionPlatformData `json:"data"`
+	Data ProviderVersionPlatformData `json:"data"`
 }
 
-type providerVersionPlatformData struct {
+type ProviderVersionPlatformData struct {
 	Id            string                                   `json:"id"`
 	Type          string                                   `json:"type"`
-	Attributes    providerVersionPlatformDataAttributes    `json:"attributes"`
-	Relationships providerVersionPlatformDataRelationships `json:"relationships"`
-	Links         providerVersionRelationshipPlatformLinks `json:"links"`
+	Attributes    ProviderVersionPlatformDataAttributes    `json:"attributes"`
+	Relationships ProviderVersionPlatformDataRelationships `json:"relationships"`
+	Links         ProviderVersionRelationshipPlatformLinks `json:"links"`
 }
 
-type providerVersionPlatformDataAttributes struct {
+type ProviderVersionPlatformDataAttributes struct {
 	Os                     string                                           `json:"os"`
 	Arch                   string                                           `json:"arch"`
 	Filename               string                                           `json:"filename"`
 	Shasum                 string                                           `json:"shasum"`
-	Permissions            providerVersionPlatformDataAttributesPermissions `json:"permissions"`
+	Permissions            ProviderVersionPlatformDataAttributesPermissions `json:"permissions"`
 	ProviderBinaryUploaded bool                                             `json:"provider-binary-uploaded"`
 }
 
-type providerVersionPlatformDataAttributesPermissions struct {
+type ProviderVersionPlatformDataAttributesPermissions struct {
 	CanDelete      bool `json:"can-delete"`
 	CanUploadAsset bool `json:"can-upload-asset"`
 }
 
-type providerVersionPlatformDataRelationships struct {
-	RegistryProviderVersion providerVersionPlatformVersion `json:"registry-provider-version"`
+type ProviderVersionPlatformDataRelationships struct {
+	RegistryProviderVersion ProviderVersionPlatformVersion `json:"registry-provider-version"`
 }
 
-type providerVersionPlatformVersion struct {
-	Data providerVersionPlatformVersionData `json:"data"`
+type ProviderVersionPlatformVersion struct {
+	Data ProviderVersionPlatformVersionData `json:"data"`
 }
 
-type providerVersionPlatformVersionData struct {
+type ProviderVersionPlatformVersionData struct {
 	Id   string `json:"id"`
 	Type string `json:"type"`
 }
 
-type providerVersionRelationshipPlatformLinks struct {
+type ProviderVersionRelationshipPlatformLinks struct {
 	ProviderBinaryUpload string `json:"provider-binary-upload"`
 }

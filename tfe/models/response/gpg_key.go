@@ -5,17 +5,17 @@ import (
 )
 
 type GpgKey struct {
-	Data gpgKeyData `json:"data"`
+	Data GpgKeyData `json:"data"`
 }
 
-type gpgKeyData struct {
+type GpgKeyData struct {
 	Type       string              `json:"type"`
 	Id         string              `json:"id"`
-	Attributes gpgKeyDataAttribute `json:"attributes"`
-	Links      gpgKeyDataLinks     `json:"links"`
+	Attributes GpgKeyDataAttribute `json:"attributes"`
+	Links      GpgKeyDataLinks     `json:"links"`
 }
 
-type gpgKeyDataAttribute struct {
+type GpgKeyDataAttribute struct {
 	AsciiArmor     string    `json:"ascii-armor"`
 	CreatedAt      time.Time `json:"created-at"`
 	KeyId          string    `json:"key-id"`
@@ -26,6 +26,6 @@ type gpgKeyDataAttribute struct {
 	UpdatedAt      time.Time `json:"updated-at"`
 }
 
-type gpgKeyDataLinks struct {
+type GpgKeyDataLinks struct {
 	Self string `json:"self"`
 }

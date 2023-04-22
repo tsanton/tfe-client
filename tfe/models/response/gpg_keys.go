@@ -1,7 +1,7 @@
 package response
 
 type GpgKeys struct {
-	Data  []gpgKeyData `json:"data"`
-	Links listLinks
-	Meta  listMeta
+	Data  []GpgKeyData `json:"data"`
+	Links ListLinks
+	Meta  ListMeta
 }
