@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/Tsanton/tfe-client/compare/v0.2.1...v0.3.0) (2023-04-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* hiding nested response structs to reduce import bloat
+
+### Bug Fixes
+
+* Filname to Filename struct property error ([2794e16](https://github.com/Tsanton/tfe-client/commit/2794e16006754cda443d3115675e3be2681d272a))
+
+
+### Code Refactoring
+
+* hiding nested response structs to reduce import bloat ([e8ed0ee](https://github.com/Tsanton/tfe-client/commit/e8ed0ee50e05e7dd199c1e74d07f71dabdd5569f))
+
 ## [0.2.1](https://github.com/Tsanton/tfe-client/compare/0.2.0...v0.2.1) (2023-04-19)
 
 
