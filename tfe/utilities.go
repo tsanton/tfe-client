@@ -47,7 +47,7 @@ func MakeRequest[T any, U any](ctx context.Context, s *TerraformEnterpriseClient
 	if resp.StatusCode != expectedResponseCode {
 		// responseData, _ := io.ReadAll(resp.Body)
 		// fmt.Print(string(responseData))
-		return nil, fmt.Errorf("request returned non 200 response: %d", resp.StatusCode)
+		return nil, fmt.Errorf("request returned non %d response: %d", expectedResponseCode, resp.StatusCode)
 	}
 
 	defer resp.Body.Close()
@@ -76,7 +76,7 @@ func Do[T any](ctx context.Context, s *TerraformEnterpriseClient, expectedRespon
 	if resp.StatusCode != expectedResponseCode {
 		// responseData, _ := io.ReadAll(resp.Body)
 		// fmt.Print(string(responseData))
-		return nil, fmt.Errorf("request returned non 200 response: %d", resp.StatusCode)
+		return nil, fmt.Errorf("request returned non %d response: %d", expectedResponseCode, resp.StatusCode)
 	}
 
 	defer resp.Body.Close()
