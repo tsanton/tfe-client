@@ -21,6 +21,7 @@ type TerraformEnterpriseClient struct {
 	ProviderService                *RegistryProviderService
 	ProviderVersionService         *RegistryProviderVersionService
 	ProviderVersionPlatformService *RegistryProviderVersionPlatformService
+	SamlConfigurationService       *SamlConfigurationService
 }
 
 func NewClient(logger u.ILogger, cfg *m.ClientConfig) (*TerraformEnterpriseClient, error) {
@@ -41,6 +42,7 @@ func NewClient(logger u.ILogger, cfg *m.ClientConfig) (*TerraformEnterpriseClien
 	cli.ProviderService = newRegistryProviderService(&cli, logger)
 	cli.ProviderVersionService = newRegistryProviderVersionService(&cli, logger)
 	cli.ProviderVersionPlatformService = newRegistryProviderVersionPlatformService(&cli, logger)
+	cli.SamlConfigurationService = NewSamlConfigurationService(&cli, logger)
 
 	return &cli, nil
 }

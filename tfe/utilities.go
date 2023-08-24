@@ -56,6 +56,9 @@ func MakeRequest[T any, U any](ctx context.Context, s *TerraformEnterpriseClient
 		return nil, nil
 	}
 
+	// responseData, _ := io.ReadAll(resp.Body)
+	// fmt.Print(string(responseData))
+
 	err = json.NewDecoder(resp.Body).Decode(&definitionResp)
 	if err != nil {
 		return nil, fmt.Errorf("unable to decode response: %w", err)
